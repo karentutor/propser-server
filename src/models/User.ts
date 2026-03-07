@@ -6,7 +6,8 @@ export interface IUser extends Document {
   firstName: string;
   lastName: string;
   isActive: boolean;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -42,4 +43,5 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-export const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
+export const User =
+  mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

@@ -1,5 +1,34 @@
 import { Request, Response } from "express";
-import { getCurrentUser, loginUser } from "../services/authService";
+import { getCurrentUser, loginUser, registerUser } from "../services/authService";
+
+export async function register(req: Request, res: Response): Promise<void> {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      res.status(400).json({
+        message: "First name, last name, email, and password are required",
+      });
+      return;
+    }
+
+    const result = await registerUser({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+
+    res.status(201).json(result);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Registration failed";
+
+    res.status(400).json({
+      message,
+    });
+  }
+}
 
 export async function login(req: Request, res: Response): Promise<void> {
   try {
